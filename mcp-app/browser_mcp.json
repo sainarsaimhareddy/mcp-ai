@@ -6,6 +6,15 @@
         "env": {
           "DISPLAY": ":1"
         }
+      },
+      "airbnb": {
+        "command": "npx",
+        "args": [
+          "-y",
+          "@openbnb/mcp-server-airbnb",
+          "--ignore-robots-txt"
+        ]
       }
+     
     }
   }

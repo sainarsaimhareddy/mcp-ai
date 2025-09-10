@@ -14,21 +14,26 @@ async def main():
   
 
     # Create MCPClient from configuration dictionary
-    client = MCPClient.from_dict(
+    client = MCPClient.from_config_file(
         os.path.join(os.path.dirname(__file__),"browser_mcp.json")
     )
-
+    print("currne  client ",client)
     # Create LLM
     # llm = ChatOpenAI(model="gpt-4o")
 
     # Create agent with the client
-    agent = MCPAgent(llm=llm, client=client, max_steps=30)
-
-    # Run the query
-    result = await agent.run(
-        "Find the best restaurant in San Francisco",
+    agent = MCPAgent(llm=llm, client=client, max_steps=30,memory_enabled=True)
+    user_input=str(input("Enter your query"))
+    result = await agent.run( 
+        user_input
     )
-    print(f"\nResult: {result}")
+    print(f"Type: {type(result)}")
+    print(f"Raw result: {result}")
+
+# If it's a function or coroutine, try awaiting or calling it
+    if callable(result):
+        value = await result() if asyncio.iscoroutinefunction(result) else result()
+        print("Final value:", value)
 
 if __name__ == "__main__":
     asyncio.run(main())
